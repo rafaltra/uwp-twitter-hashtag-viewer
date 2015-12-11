@@ -5,16 +5,35 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interfaces="using:Tweetinvi.Core.Interfaces"
+    xmlns:common="using:Tweets_notld.Common"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <common:StringFormatConverter x:Key="StringFormatConverter"/>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView x:Name="MyGridView">
+        <GridView x:Name="MyGridView" HorizontalAlignment="Stretch">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="interfaces:ITweet">
-                    <StackPanel Height="100" Width="500" Background="DodgerBlue">
-                        <TextBlock Text="{x:Bind CreatedBy}"/>
-                        <TextBlock Text="{x:Bind Text}" x:Phase="1"/>
-                    </StackPanel>
+                    <Grid Height="120" Width="500" Background="DodgerBlue">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="{Binding CreatedBy.ProfileImageUrl}"
+                               Grid.Column="0"
+                               Grid.RowSpan="2"
+                        Width="80"
+                        Height="80"
+                        Stretch="UniformToFill"/>
+                        <TextBlock Text="{Binding CreatedBy.UserIdentifier.ScreenName, Converter={StaticResource StringFormatConverter}, ConverterParameter='@{0}'}" Grid.Column="1" Grid.Row="0" Margin="0, 10, 10, 0" FontWeight="Bold" FontSize="12"/>
+                        <TextBlock Text="{x:Bind Text}" Grid.Column="1" Grid.Row="1" Margin="0, 5, 10, 15" x:Phase="1" TextWrapping="WrapWholeWords" FontSize="14"/>
+                    </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
