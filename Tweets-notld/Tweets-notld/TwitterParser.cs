@@ -40,5 +40,25 @@ namespace Tweets_notld
                 observableTweets.Add(tweet);
             }
         }
+
+        internal async Task ParseAsync()
+        {
+            await Task.Run(() =>
+            {
+                var searchParameter = new TweetSearchParameters("%23" + HASHTAG)
+                {
+                    MaximumNumberOfResults = 20,
+                    SearchType = SearchResultType.Recent
+                };
+
+                tweetList = Search.SearchTweets(searchParameter);
+            });
+
+            observableTweets.Clear();
+            foreach (ITweet tweet in tweetList)
+            {
+                observableTweets.Add(tweet);
+            }
+        }
     }
 }

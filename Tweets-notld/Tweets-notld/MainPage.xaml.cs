@@ -16,6 +16,7 @@ using Tweetinvi;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Parameters;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -32,12 +33,16 @@ namespace Tweets_notld
             this.InitializeComponent();
             InitializeTwitter();
 
-            var timer = new System.Threading.Timer(
-                e => ParseTweets(),
-                null,
-                TimeSpan.Zero,
-                TimeSpan.FromSeconds(5)
-            );
+            DoTimer();
+        }
+
+        private async void DoTimer()
+        {
+            while (true)
+            {
+                await ParseTweets();
+                await Task.Delay(5000);
+            }
         }
 
         private void InitializeTwitter()
@@ -48,9 +53,9 @@ namespace Tweets_notld
             MyGridView.ItemsSource = twitterParser.observableTweets;
         }
 
-        private void ParseTweets()
+        private async Task ParseTweets()
         {
-            twitterParser.Parse();
+            await twitterParser.ParseAsync();
         }
     }
 }
