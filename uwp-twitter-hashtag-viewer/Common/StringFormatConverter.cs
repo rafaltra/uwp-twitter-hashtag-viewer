@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace Tweets_notld.Common
+namespace UwpTwitterHashtagViewer.Common
 {
     //Thanks Marco Minerva!
     //https://marcominerva.wordpress.com/2013/04/26/stringformat-converter-for-windows-store-apps/
