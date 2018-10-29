@@ -24,7 +24,7 @@ namespace UwpTwitterHashtagViewer
         {
             while (true)
             {
-                await ParseTweets();
+                await twitterParser.ParseAsync();
                 await Task.Delay(5000);
             }
         }
@@ -33,13 +33,7 @@ namespace UwpTwitterHashtagViewer
         {
             Auth.SetUserCredentials("vBAvGQo2VyRq8T2bzPAHu8Mt6", "ZJ15cpQnWwgQTTutlkuqyB2T0OoVk83LfpfHeVOR9AQFD2nQyU", "3719969956-8jCJdi3YnZWfsRdAE2O6ogLViPw69rNTeBO1I9P", "bt2UC8Ac1A5ZSG87eriuDl2euGbrJcdsK9wlg7bmWETv1");
             twitterParser = new TwitterParser();
-            ParseTweets();
             MyGridView.ItemsSource = twitterParser.observableTweets;
-        }
-
-        private async Task ParseTweets()
-        {
-            await twitterParser.ParseAsync();
         }
     }
 }
