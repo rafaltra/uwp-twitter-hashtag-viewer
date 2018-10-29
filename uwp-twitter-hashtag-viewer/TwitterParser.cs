@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Core.Enum;
@@ -11,7 +12,6 @@ namespace UwpTwitterHashtagViewer
     class TwitterParser
     {
         public const string HASHTAG = "MTVStars";
-        public IEnumerable<ITweet> tweetList;
 
         public ObservableCollection<ITweet> observableTweets;
 
@@ -20,24 +20,9 @@ namespace UwpTwitterHashtagViewer
             observableTweets = new ObservableCollection<ITweet>();
         }
 
-        public void Parse()
-        {
-            var searchParameter = new TweetSearchParameters("%23"+HASHTAG)
-            {
-                MaximumNumberOfResults = 20,
-                SearchType = SearchResultType.Recent
-            };
-
-            tweetList = Search.SearchTweets(searchParameter);
-
-            foreach (ITweet tweet in tweetList)
-            {
-                observableTweets.Add(tweet);
-            }
-        }
-
         internal async Task ParseAsync()
         {
+            IEnumerable<ITweet> tweetList = null;
             await Task.Run(() =>
             {
                 var searchParameter = new TweetSearchParameters("%23" + HASHTAG)
@@ -49,10 +34,19 @@ namespace UwpTwitterHashtagViewer
                 tweetList = Search.SearchTweets(searchParameter);
             });
 
-            observableTweets.Clear();
-            foreach (ITweet tweet in tweetList)
-            {
-                observableTweets.Add(tweet);
+            if (tweetList != null) {
+                TweetComparator comparator = new TweetComparator();
+                IEnumerable<ITweet> tweetsToRemove = observableTweets.Where(t => !tweetList.Contains(t, comparator)).ToList();
+                foreach (ITweet tweet in tweetsToRemove)
+                {
+                    observableTweets.Remove(tweet);
+                }
+
+                IEnumerable<ITweet> tweetsToAdd = tweetList.Where(t => !observableTweets.Contains(t, comparator)).ToList();
+                foreach (ITweet tweet in tweetsToAdd)
+                {
+                    observableTweets.Add(tweet);
+                }
             }
         }
     }
