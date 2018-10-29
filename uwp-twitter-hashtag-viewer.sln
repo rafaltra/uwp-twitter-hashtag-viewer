@@ -1,9 +1,8 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweets-notld", "Tweets-notld\Tweets-notld.csproj", "{7CB5B22F-BD2A-4EC9-B416-D863512A82F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uwp-twitter-hashtag-viewer", "uwp-twitter-hashtag-viewer\uwp-twitter-hashtag-viewer.csproj", "{7CB5B22F-BD2A-4EC9-B416-D863512A82F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
